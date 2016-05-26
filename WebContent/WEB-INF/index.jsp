@@ -71,7 +71,8 @@
                 </div>
                 </div>
             </form>  </li>  
-            <li class="active"><a href="#">Menu Item 1</a></li>
+            <li class="active"><a  ng-click="fetchData('shiva');"  href="#">Menu Item 1</a></li>
+              
             <li><a href="#">Menu Item 2</a></li>
             <li ng-repeat="x in zipCodes"><a href="#">{{x.title}}</a></li>
             
@@ -84,10 +85,9 @@
   
     
     <div class="col-sm-10">
-        <div class="row" ng-controller="getRequest">
+        <div class="row">
             
-				
-            <div class="col-md-2 song"  ng-repeat="x in zipCodes">
+			<div class="col-md-2 song"  ng-repeat="x in zipCodes">
                      Hello {{x.title}}!
             </div>
                 

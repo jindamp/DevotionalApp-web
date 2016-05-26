@@ -12,7 +12,7 @@ app.config(['$httpProvider', function($httpProvider) {
 
 app.controller("getRequest",function($scope,$http){
                
-    $http.get("http://localhost:8080/DevotionalApp/songs/ganesh")
+    $http.get("http://localhost:8080/DevotionalApp/songs/"+"ganesh")
                     .success(function(data, status, headers, config) {
                          $scope.zipCodes = data;
                     })
@@ -21,7 +21,37 @@ app.controller("getRequest",function($scope,$http){
                         console.log(error);
                          console.log("Error occured");
                     });
-               });
+    
+    
+    
+    $scope.fetchData = function(category)
+                {
+                    $http.get("http://localhost:8080/DevotionalApp/songs/"+category)
+                    .success(function(data, status, headers, config) {
+                         $scope.zipCodes = data;
+                    })
+                    .error(function(error, status, headers, config) {
+                         console.log(status);
+                        console.log(error);
+                         console.log("Error occured");
+                    });
+                };
+
+    
+    $scope.removeTask = function(item){
+                    alert("Task Id is "+item);
+        };
+
+    
+    });
+
+    
+
+    	  
+      
+
+
+      
 
 
 /*app.controller("getRequest",function($scope,$http){
