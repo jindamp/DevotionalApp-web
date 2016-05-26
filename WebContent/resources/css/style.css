@@ -1,0 +1,55 @@
+.music-player{
+    background: #34495e;
+    height: 60px;
+    line-height: 60px;
+    box-shadow: 5px 5px 5px #888888;
+}
+.play-song
+{
+    vertical-align: middle;
+    color: aliceblue;
+}
+
+.nav_menu
+{
+    margin-top: 16px;
+}
+.side-menu
+{
+    background: #34495e;
+    height:100vh;
+    
+}
+.need-margin{
+    margin-top: 60px;
+}
+.song{
+    margin: 16px;
+    width: 200px;
+    height: 200px;
+    background-color:#fb3030;
+     box-shadow: 2px 2px 2px #888888;
+}
+
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+    max-height: none;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    float: none;
+    display: block;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
