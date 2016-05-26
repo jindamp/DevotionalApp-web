@@ -12,15 +12,18 @@ app.config(['$httpProvider', function($httpProvider) {
 
 app.controller("getRequest",function($scope,$http){
                
-    $http.get("http://localhost:8080/DevotionalApp/songs/"+"ganesh")
-                    .success(function(data, status, headers, config) {
-                         $scope.zipCodes = data;
+    $http.get("http://localhost:8080/DevotionalApp/categories")
+    		.success(function(data, status, headers, config) {
+            
+    					$scope.gods = data;
+    					console.log(data);
                     })
                     .error(function(error, status, headers, config) {
                          console.log(status);
                         console.log(error);
                          console.log("Error occured");
                     });
+              
     
     
     

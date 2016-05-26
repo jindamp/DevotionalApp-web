@@ -35,6 +35,20 @@ public class SongsController {
 		return songsList;
 	}
 		
+	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<MediaItem> getCategories() {
+
+		List<MediaItem> songsList = null;
+		try {
+			songsList = songsService.fetchCategories();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
 	
 	@RequestMapping(value = "/helo")
 	public String test() {
