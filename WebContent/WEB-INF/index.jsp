@@ -34,6 +34,7 @@
             <div class="col-md-12 music-player" >
                 <b class="play-song">Heading to play Song</b>
 
+<button style="float: right;vertical-align: middle; margin-top:16px; " type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add Song</button>
     <!--
                 <audio controls="controls">
                   <source src="track.ogg" type="audio/ogg" />
@@ -71,13 +72,15 @@
                     </div>
                     </div>
                 </form>  </li>  
-                <li class="active"><a  ng-click="fetchData('shiva');"  href="#">Menu Item 1</a></li>
+                
+                  <!--<li class="active"><a  ng-click="fetchData('shiva');"  href="#">Menu Item 1</a></li>
+                  <li><a href="#">Menu Item 2</a></li>
+                  <li><a href="#">Reviews <span class="badge">1,118</span></a></li>  -->
+                
+                  <!-- ************************* Navbar Items  ********************************* -->
+                  <li ng-repeat="god in gods" ng-click="fetchData(god);"><a href="#">{{god}}</a></li>
 
-                <li><a href="#">Menu Item 2</a></li>
-                  
-                <li ng-repeat="god in gods" ng-click="fetchData(god);"><a href="#">{{god}}</a></li>
-
-                <li><a href="#">Reviews <span class="badge">1,118</span></a></li>
+                
               </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -85,19 +88,151 @@
       </div>
 <!-- ******************* End Side Bar **************************** --> 
 
-<!-- ******************* MAin Content **************************** -->         
+<!-- ******************* Main Content **************************** -->         
         <div class="col-sm-10">
             <div class="row">
 
-                <div class="col-md-2 song"  ng-repeat="x in zipCodes">
+                <!-- <div class="col-md-2 song"  ng-repeat="x in zipCodes">
                          Hello {{x.title}}!
+                </div> -->
+
+
+				<div class="col-sm-2 song-main" ng-repeat="x in zipCodes">
+                
+                <div style="height:70%;width:100%" class="song-img">
+                <img class="image" src="http://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-play-music-icon.png" alt="Mountain View">
                 </div>
+            
+                <div class="song-footer" style="height:30%;width:100%">Title : {{x.title}}</div>
+                
+                
+            </div>
+
 
                    </div>
 
 
                 </div>
 <!-- ******************* End Main COntent **************************** -->         
+        
+<!-- ******************* Sign-Up Modal  **************************** -->        
+        <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Upload Song</h4>
+        </div>
+        <div class="modal-body">
+          
+          
+               <form class="form-horizontal form-background">
+        
+              <fieldset>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Category">Category</label>  
+              <div class="col-md-6">
+              <input id="Category" name="Category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Title">Title</label>  
+              <div class="col-md-6">
+              <input id="Title" name="Title" type="text" placeholder="Song Title" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="album">Album</label>  
+              <div class="col-md-6">
+              <input id="album" name="album" type="text" placeholder="Song Album" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="artist">Artist</label>  
+              <div class="col-md-6">
+              <input id="artist" name="artist" type="text" placeholder="Song Artist" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="composer">Composer</label>  
+              <div class="col-md-6">
+              <input id="composer" name="composer" type="text" placeholder="song composer" class="form-control input-md">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="duration">Duration</label>  
+              <div class="col-md-6">
+              <input id="duration" name="duration" type="text" placeholder="Time in Minutes" class="form-control input-md">
+
+              </div>
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="url">URL</label>
+              <div class="col-md-6">                     
+                <textarea class="form-control" id="url" name="url">Song Url</textarea>
+              </div>
+            </div>
+
+            <!-- File Button --> 
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="filebutton">File Button</label>
+              <div class="col-md-6">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+              </div>
+            </div>
+
+            <!-- Button 
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Submit"></label>
+              <div class="col-md-6">
+                <button id="Submit" name="Submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>-->
+
+            </fieldset>
+        
+          <!-- Button -->
+            <div class="form-group modal-footer">
+              <label class="col-md-4 control-label" for="Submit"></label>
+                <button id="Submit" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+            </div>
+        
+                   
+</form>
+            
+            
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+<!-- End Modal -->            
+        
+<!-- ******************* End Sign-Up Modal  **************************** -->        
+        
         </div>
 
     </div>
