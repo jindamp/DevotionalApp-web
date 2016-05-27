@@ -99,8 +99,9 @@
 
 				<div class="col-sm-2 song-main" ng-repeat="x in zipCodes">
                 
-                <div style="height:70%;width:100%" class="song-img">
-                <img class="image" src="http://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-play-music-icon.png" alt="Mountain View">
+               <div style=" height:70%; width:100%" class="song-img">
+                 <a href="#"><img class="image" src="http://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-play-music-icon.png" alt="Mountain View"></a>
+                <div data-toggle="modal" data-target="#myModal" style="position: absolute; bottom:0;margin-bottom:58px;right:0;padding:8px;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></div>
                 </div>
             
                 <div class="song-footer" style="height:30%;width:100%">Title : {{x.title}}</div>
@@ -238,6 +239,9 @@
     </div>
 
         </-- <script src="<c:url value="resources/js/angular.min.js" />"></script> -->
+        
+        
+		<script src="https://use.fontawesome.com/c76c5cdd32.js"></script>
         <script src="<c:url value="resources/js/jquery.min.js" />"></script>
         <script src="<c:url value="resources/js/bootstrap.min.js" />"></script>
         <script src="<c:url value="resources/js/scripts.js" />"></script>
