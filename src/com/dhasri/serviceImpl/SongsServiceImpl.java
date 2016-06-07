@@ -25,4 +25,23 @@ public class SongsServiceImpl implements SongsService{
 		return songsDao.fetchCategories();
 	}
 
+	@Override
+	public List<MediaItem> fetchRowOfUniqueCategories() {
+		// TODO Auto-generated method stub
+		return songsDao.fetchRowOfUniqueCategories();
+	}
+
+	@Override
+	public List<MediaItem> fetchSubCategories(String parent) {
+		// TODO Auto-generated method stub
+		return songsDao.fetchSubCategories(parent);
+	}
+
+	@Override
+	public List<MediaItem> fetchSongsBySubCategory(String Category) {
+		// TODO Auto-generated method stub
+		return songsDao.fetchSongsBySubCategory(Category);
+	}
+
+	
 }

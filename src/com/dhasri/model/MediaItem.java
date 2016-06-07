@@ -18,6 +18,7 @@ public class MediaItem {
 	private int serialNo;
 	
 	private String category;
+	private String sub_category;
 	private String lyrics_en;
 	private String lyrics_telugu;
 	private String title;
@@ -34,6 +35,22 @@ public class MediaItem {
 	}
 	
 	
+	
+	
+	public String getSub_category() {
+		return sub_category;
+	}
+
+
+
+
+	public void setSub_category(String sub_category) {
+		this.sub_category = sub_category;
+	}
+
+
+
+
 	public String getLyrics_en() {
 		return lyrics_en;
 	}

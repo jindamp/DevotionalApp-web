@@ -78,7 +78,7 @@
                   <li><a href="#">Reviews <span class="badge">1,118</span></a></li>  -->
                 
                   <!-- ************************* Navbar Items  ********************************* -->
-                  <li ng-repeat="god in gods" ng-click="fetchData(god);"><a href="#">{{god}}</a></li>
+                  <li ng-repeat="god in gods" ng-click="fetchData(god[0].category);"><a href="#">{{god[0].category}}</a></li>
 
                 
               </ul>

@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -13,20 +12,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.dhasri.model.MediaItem;
-import com.dhasri.model.SampleModel;
 import com.dhasri.service.SongsService;
 
+
 @Controller
-public class SongsController {
+public class SongsController{
 	
 	@Autowired
 	SongsService songsService;
-	
+/* ========================= Fetch Songs By Categoery ===================================== */
+
 	@RequestMapping(value = "/songs/{category}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
 	List<MediaItem> getSongsByCategory(@PathVariable("category") String category) {
@@ -42,7 +40,22 @@ public class SongsController {
 		return songsList;
 	}
 		
-	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	@RequestMapping(value = "/sub/{category}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<MediaItem> getSongsBySubCategory(@PathVariable("category") String category) {
+
+		List<MediaItem> songsList = null;
+		try {
+			songsList = songsService.fetchSongsBySubCategory(category);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
+	
+	@RequestMapping(value = "/onlyCategories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
 	List<MediaItem> getCategories() {
 
@@ -57,6 +70,36 @@ public class SongsController {
 		return songsList;
 	}
 	
+	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<MediaItem> fetchRowOfUniqueCategories() {
+
+		List<MediaItem> songsList = null;
+		try {
+			songsList = songsService.fetchRowOfUniqueCategories();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
+	
+	@RequestMapping(value = "/categories/{sub}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<MediaItem> fetchSubCategories(@PathVariable("sub") String sub) {
+
+		List<MediaItem> songsList = null;
+		try {
+			songsList = songsService.fetchSubCategories(sub);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
+/* ========================= Views Controller ===================================== */	
 	@RequestMapping(value = "/helo")
 	public String test() {
 		return "index";
@@ -67,9 +110,13 @@ public class SongsController {
 		return "upload";
 	}
 	
+	@RequestMapping(value = "/person")
+	public String person() {
+		return "new_person";
+	}
 	
-	
-	@RequestMapping(value = "/uploadFile",method = RequestMethod.POST)
+	/* ========================= Upload Files ===================================== */	
+	@RequestMapping(value = "/uploadFileTest",method = RequestMethod.POST)
 	public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file) {
 		
 		if (!file.isEmpty()) {
@@ -94,7 +141,7 @@ public class SongsController {
 }
 	
 	
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//=============================== Upload Files ==============================================
 	
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public @ResponseBody
@@ -109,7 +156,7 @@ public class SongsController {
 				String rootPath = System.getProperty("catalina.home");
 				System.out.println("root-path : "+ rootPath);
 				System.out.println("root-path : "+ File.separator);
-				File dir = new File(rootPath + File.separator + "pavan");
+				File dir = new File(rootPath + File.separator + "temp");
 				
 				if (!dir.exists())
 					dir.mkdirs();
@@ -137,4 +184,23 @@ public class SongsController {
 	
 
 	
+//========================== Uploading Using AngularJS ==========================
+	
+	@RequestMapping(value="/upload123", method=RequestMethod.POST)
+    public String handleFileUpload(@RequestParam("name") String name, @RequestParam("file") MultipartFile file){
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+                BufferedOutputStream stream =
+                        new BufferedOutputStream(new FileOutputStream(new File(name)));
+                stream.write(bytes);
+                stream.close();
+                return "You successfully uploaded " + name + "!";
+            } catch (Exception e) {
+                return "You failed to upload " + name + " => " + e.getMessage();
+            }
+        } else {
+            return "You failed to upload " + name + " because the file was empty.";
+        }
+    }
 }

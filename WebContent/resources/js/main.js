@@ -19,9 +19,9 @@ app.controller("getRequest",function($scope,$http){
     					console.log(data);
                     })
                     .error(function(error, status, headers, config) {
-                         console.log(status);
+                        console.log(status);
                         console.log(error);
-                         console.log("Error occured");
+                        console.log("Error occured");
                     });
               
     
@@ -48,14 +48,6 @@ app.controller("getRequest",function($scope,$http){
     
     });
 
-    
-
-    	  
-      
-
-
-      
-
 
 /*app.controller("getRequest",function($scope,$http){
     
@@ -78,11 +70,40 @@ app.controller("getRequest",function($scope,$http){
 
 
 
-app.controller("myCtrl", function($scope) {
-  $scope.records = [
-    "pavan",
-    "akshay",
-    "Centro comercial Moctezuma",
-    "Ernst Handel",
-  ]
-});
+//============================ Uploader Code =====================================
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+app.controller('myCtrl', ['$scope', '$http', function($scope, $http){
+
+    $scope.uploadFile = function(){
+        var file = $scope.myFile;
+        var fd = new FormData();
+        fd.append('file', file);
+        //We can send anything in name parameter, 
+        //it is hard coded to abc as it is irrelavant in this case.
+        var uploadUrl = "/uploadFile";
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(){
+        })
+        .error(function(){
+        });
+    }
+
+}]);
