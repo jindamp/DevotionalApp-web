@@ -20,6 +20,8 @@
         <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/resources/css/search_btn.css"/>" rel="stylesheet">
         
+        <script type="text/javascript" src="/resources/jplayer/jquery.jplayer.min.js"></script>
+        
         <title>Insert title here</title>
     </head>
 <!-- ******************* End Header **************************** -->        
@@ -95,19 +97,19 @@
                 <!-- <div class="col-md-2 song"  ng-repeat="x in zipCodes">
                          Hello {{x.title}}!
                 </div> -->
+                
 
-
-				<div class="col-sm-2 song-main" ng-repeat="x in zipCodes">
+<div class="col-sm-2 song-main" ng-repeat="x in zipCodes">
                 
                <div style=" height:70%; width:100%" class="song-img">
-                 <a href="#"><img class="image" src="http://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-play-music-icon.png" alt="Mountain View"></a>
-                <div data-toggle="modal" data-target="#myModal" style="position: absolute; bottom:0;margin-bottom:58px;right:0;padding:8px;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></div>
+                 <a ng-click="playSong(x.path);" href="#"><img class="image" src="http://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-play-music-icon.png" alt="Mountain View"></a>
+                <div data-toggle="modal" data-ng-click="model(x, $index)" data-target="#lyricsModal" style="position: absolute; bottom:0;margin-bottom:58px;right:0;padding:8px;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></div>
                 </div>
             
                 <div class="song-footer" style="height:30%;width:100%">Title : {{x.title}}</div>
                 
                 
-            </div>
+</div>
 
 
                    </div>
@@ -116,7 +118,7 @@
                 </div>
 <!-- ******************* End Main COntent **************************** -->         
         
-<!-- ******************* Sign-Up Modal  **************************** -->        
+<!-- ******************* Upload Modal  **************************** -->        
         <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -138,7 +140,122 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="Category">Category</label>  
               <div class="col-md-6">
-              <input id="Category" name="Category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required="">
+              <input id="Category" name="Category"  data-ng-model="insertSong.category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Title">Title</label>  
+              <div class="col-md-6">
+              <input id="Title" name="Title" data-ng-model="insertSong.title" type="text" placeholder="Song Title" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="album">Album</label>  
+              <div class="col-md-6">
+              <input id="album" name="album" data-ng-model="insertSong.album" type="text" placeholder="Song Album" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="artist">Artist</label>  
+              <div class="col-md-6">
+              <input id="artist" name="artist" data-ng-model="insertSong.artist" type="text" placeholder="Song Artist" class="form-control input-md" required="">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="composer">Composer</label>  
+              <div class="col-md-6">
+              <input id="composer" name="composer" data-ng-model="insertSong.composer" type="text" placeholder="song composer" class="form-control input-md">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="duration">Duration</label>  
+              <div class="col-md-6">
+              <input id="duration" name="duration" type="text" placeholder="Time in Minutes" class="form-control input-md">
+
+              </div>
+            </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="url">URL</label>
+              <div class="col-md-6">                     
+                <textarea class="form-control" data-ng-model="insertSong.path" id="url" name="url">Song Url</textarea>
+              </div>
+            </div>
+
+            <!-- File Button --> 
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="filebutton">File Button</label>
+              <div class="col-md-6">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+              </div>
+            </div>
+
+            <!-- Button 
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Submit"></label>
+              <div class="col-md-6">
+                <button id="Submit" name="Submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>-->
+
+            </fieldset>
+        
+          <!-- Button -->
+            <div class="form-group modal-footer">
+              <label class="col-md-4 control-label" for="Submit"></label>
+                <button id="Submit" ng-click="addSong(insertSong)" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+            </div>
+	</form>
+            
+            
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+<!-- End Modal -->            
+        
+<!-- ******************* End Upload Modal  **************************** -->        
+
+<!-- ******************* Edit Modal  **************************** -->        
+        <!-- Modal -->
+  <div class="modal fade" id="editModal" role="dialog" >
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Update Lyrics</h4>
+        </div>
+        <div class="modal-body">
+			<form class="form-horizontal form-background">
+        
+              <fieldset>
+
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Category">Category</label>  
+              <div class="col-md-6">
+              <input id="Category" name="Category" data-ng-model="song.category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required="">
 
               </div>
             </div>
@@ -219,9 +336,7 @@
               <label class="col-md-4 control-label" for="Submit"></label>
                 <button id="Submit" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
             </div>
-        
-                   
-</form>
+	</form>
             
             
         </div>
@@ -232,7 +347,60 @@
   </div>
 <!-- End Modal -->            
         
-<!-- ******************* End Sign-Up Modal  **************************** -->        
+<!-- ******************* End Edit Modal  **************************** -->              
+
+
+<!-- ******************* Lyrics Modal  **************************** -->        
+        <!-- Modal -->
+  <div class="modal fade" id="lyricsModal" role="dialog" >
+    <div class="modal-dialog">
+    
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Upload Song</h4>
+        </div>
+        <div class="modal-body">
+               <form class="form-horizontal form-background">
+               <div class="row">
+               <div class="col-md-1"></div>
+                <div class="col-md-6">
+               <div class="form-group">
+                <textarea data-ng-model="song.lyrics_en" rows="10" name="english" cols="65"></textarea>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-1"></div>
+              <div class="col-md-6">
+              <div class="form-group">
+                <textarea data-ng-model="song.lyrics_telugu" rows="10" name="telugu" cols="65"></textarea>
+                </div>
+              </div>
+            </div>
+          <!-- Button -->
+            <div class="form-group modal-footer">
+              <label class="col-md-4 control-label" for="Submit"></label>
+                <button id="Submit" data-ng-click="submitLyrics(song)" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+            
+            <!-- submitLyrics(song) -->
+            </div>
+	</form>
+            
+            
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+<!-- End Modal -->            
+        
+<!-- ******************* End Edit Modal  **************************** -->    
+        
+        
         
         </div>
 

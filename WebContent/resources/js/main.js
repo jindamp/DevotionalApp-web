@@ -9,12 +9,10 @@ app.config(['$httpProvider', function($httpProvider) {
 
 
 
-
 app.controller("getRequest",function($scope,$http){
                
-    $http.get("http://localhost:8080/DevotionalApp/categories")
+    $http.get("categories")
     		.success(function(data, status, headers, config) {
-            
     					$scope.gods = data;
     					console.log(data);
                     })
@@ -24,12 +22,55 @@ app.controller("getRequest",function($scope,$http){
                         console.log("Error occured");
                     });
               
+  
+    $scope.song = {};
+    $scope.model = function(x, index) {
+    	/*$scope.song['category'] = x.category;*/
+    	$scope.song = x;
+    }
+    
+    $scope.submitLyrics = function(song) {
+    	console.log(JSON.stringify(song));
+    	$http({
+    		method:'POST',
+    		url:'updateLyrics',
+    		data:JSON.stringify(song)
+    	}) .success(function(data, status, headers, config) {
+    		console.log(data)
+        })
+        .error(function(error, status, headers, config) {
+             console.log("Error occured");
+        });
+    }
+    
+    $scope.addSong = function(song) {
+    	console.log(JSON.stringify(song));
+    	$http({
+    		method:'POST',
+    		url:'addSong',
+    		data:JSON.stringify(song)
+    	}) .success(function(data, status, headers, config) {
+    		console.log(data)
+        })
+        .error(function(error, status, headers, config) {
+             console.log("Error occured");
+        });
+    }
     
     
+    $scope.AppendText = function() {
+        var myEl = angular.element( document.querySelector( '#divID' ) );
+        myEl.append($scope.song.lyrics_en);     
+       }
     
+    $scope.changeView = function(view){
+        $location.path(view); // path not hash
+    }
+    
+  
     $scope.fetchData = function(category)
                 {
-                    $http.get("http://localhost:8080/DevotionalApp/songs/"+category)
+                    $http.get("songs/"+category)
                     .success(function(data, status, headers, config) {
                          $scope.zipCodes = data;
                     })
@@ -41,12 +82,41 @@ app.controller("getRequest",function($scope,$http){
                 };
 
     
+     $scope.firstName = "John";
+        $scope.lastName = "Doe";
+    
+    $scope.playSong = function(url) {
+         
+        $("#jquery_jplayer_1").jPlayer({
+		ready: function (event) {
+			$(this).jPlayer("setMedia", {
+				title: "Bubble",
+                 mp3: "http://dhasrimedia.com/dev/07RAMAYANAMU%20SRI%20RAMA.mp3"
+			});
+		},
+		swfPath: "js/jplayer",
+		supplied: "mp3",
+		wmode: "window",
+		useStateClassSkin: true,
+		autoBlur: false,
+		smoothPlayBar: true,
+		keyEnabled: true,
+		remainingDuration: true,
+		toggleDuration: true
+	});
+        
+    };
+    
+    
+    
+    
     $scope.removeTask = function(item){
                     alert("Task Id is "+item);
         };
+	});
 
-    
-    });
+
+
 
 
 /*app.controller("getRequest",function($scope,$http){
@@ -66,6 +136,9 @@ app.controller("getRequest",function($scope,$http){
         });
 
 });*/
+
+
+
 
 
 

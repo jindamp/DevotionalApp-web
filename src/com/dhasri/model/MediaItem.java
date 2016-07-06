@@ -18,7 +18,6 @@ public class MediaItem {
 	private int serialNo;
 	
 	private String category;
-	private String sub_category;
 	private String lyrics_en;
 	private String lyrics_telugu;
 	private String title;
@@ -28,28 +27,20 @@ public class MediaItem {
 	private long duration;
 	private long albumId;
 	private String composer;
-
-	MediaItem()
+	private int version;
+	private String $$hashKey;
+	
+	public MediaItem()
 	{
 		
 	}
 	
-	
-	
-	
-	public String getSub_category() {
-		return sub_category;
+	public int getVersion() {
+		return version;
 	}
-
-
-
-
-	public void setSub_category(String sub_category) {
-		this.sub_category = sub_category;
+	public void setVersion(int version) {
+		this.version = version;
 	}
-
-
-
 
 	public String getLyrics_en() {
 		return lyrics_en;
@@ -65,6 +56,14 @@ public class MediaItem {
 		return lyrics_telugu;
 	}
 
+
+	public String get$$hashKey() {
+		return $$hashKey;
+	}
+
+	public void set$$hashKey(String $$hashKey) {
+		this.$$hashKey = $$hashKey;
+	}
 
 	public void setLyrics_telugu(String lyrics_telugu) {
 		this.lyrics_telugu = lyrics_telugu;

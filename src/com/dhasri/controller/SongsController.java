@@ -4,10 +4,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dhasri.model.MediaItem;
+import com.dhasri.model.Versions;
+import com.dhasri.model.festivals;
 import com.dhasri.service.SongsService;
 
 
@@ -24,7 +28,6 @@ public class SongsController{
 	@Autowired
 	SongsService songsService;
 /* ========================= Fetch Songs By Categoery ===================================== */
-
 	@RequestMapping(value = "/songs/{category}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
 	List<MediaItem> getSongsByCategory(@PathVariable("category") String category) {
@@ -39,37 +42,29 @@ public class SongsController{
 
 		return songsList;
 	}
+	
+	
+	/* ========================= Add Songs ===================================== */	
+	@RequestMapping(value = "/addSong",method = RequestMethod.POST)
+	public @ResponseBody String addSong(@RequestBody MediaItem song) {
 		
-	@RequestMapping(value = "/sub/{category}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
-	public @ResponseBody
-	List<MediaItem> getSongsBySubCategory(@PathVariable("category") String category) {
+		String status = songsService.addSong(song);
+		
+		return "{ \"status\" : \""+status+"\"}";
+		
+}
 
-		List<MediaItem> songsList = null;
-		try {
-			songsList = songsService.fetchSongsBySubCategory(category);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return songsList;
-	}
+	/* ========================= Update Lyrics ===================================== */	
+	@RequestMapping(value = "/updateLyrics",method = RequestMethod.POST)
+	public @ResponseBody String updateLyrics(@RequestBody MediaItem song) {
+		
+		String status = songsService.updateLyrics(song);
+		
+		return "{ \"status\" : \""+status+"\"}";
+		
+}
 	
-	@RequestMapping(value = "/onlyCategories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
-	public @ResponseBody
-	List<MediaItem> getCategories() {
-
-		List<MediaItem> songsList = null;
-		try {
-			songsList = songsService.fetchCategories();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return songsList;
-	}
-	
+	/* ========================= Fetch All Categoeries ===================================== */
 	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
 	List<MediaItem> fetchRowOfUniqueCategories() {
@@ -84,14 +79,15 @@ public class SongsController{
 
 		return songsList;
 	}
-	
-	@RequestMapping(value = "/categories/{sub}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	/* ========================= Fetch Songs by version===================================== */
+	@RequestMapping(value = "/all/{version}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
 	public @ResponseBody
-	List<MediaItem> fetchSubCategories(@PathVariable("sub") String sub) {
+	List<MediaItem> fetchSongsByVersion(@PathVariable("version") String version) {
 
 		List<MediaItem> songsList = null;
 		try {
-			songsList = songsService.fetchSubCategories(sub);
+			int ver = Integer.parseInt(version);
+			songsList = songsService.fetchSongsByVersion(ver);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,9 +95,57 @@ public class SongsController{
 
 		return songsList;
 	}
+	/* ========================= Fetch All Songs ===================================== */
+	@RequestMapping(value = "/allsongs", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<MediaItem> fetchAllSongs() {
+
+		List<MediaItem> songsList = null;
+		try {
+			songsList = songsService.fetchAllSongs();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
+	
+	@RequestMapping(value = "/festival", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<festivals> getfestival() {
+
+		List<festivals> songsList = null;
+		try {
+			songsList = songsService.fetchFestival();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
+	
+	/* ========================= Fetch All Versions ===================================== */
+	@RequestMapping(value = "/versions", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<Versions> getVersions() {
+
+		List<Versions> songsList = null;
+		try {
+			songsList = songsService.fetchVersion();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return songsList;
+	}
+	
 /* ========================= Views Controller ===================================== */	
 	@RequestMapping(value = "/helo")
 	public String test() {
+		
 		return "index";
 	}
 	

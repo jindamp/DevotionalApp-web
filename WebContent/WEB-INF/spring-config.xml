@@ -37,6 +37,8 @@
 				<value>com.dhasri.model.MediaItem</value>
 				<value>com.dhasri.model.Categories</value>
 				<value>com.dhasri.model.FestivalModel</value>
+				<value>com.dhasri.model.festivals</value>
+				<value>com.dhasri.model.Versions</value>
 			</list>
 		</property>
 		

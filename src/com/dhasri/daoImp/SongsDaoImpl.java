@@ -1,5 +1,6 @@
 package com.dhasri.daoImp;
 
+import java.io.Console;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -14,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dhasri.dao.SongsDao;
+import com.dhasri.model.Categories;
 import com.dhasri.model.MediaItem;
 import com.dhasri.model.SampleModel;
+import com.dhasri.model.Versions;
+import com.dhasri.model.festivals;
 
 @Component
 public class SongsDaoImpl implements SongsDao {
@@ -30,51 +34,15 @@ public class SongsDaoImpl implements SongsDao {
 	public List<MediaItem> fetchSongsByCategory(String Category) {
 		// TODO Auto-generated method stub
 		session = sessionFactory.openSession();
-		
-		//tx = session.beginTransaction();
-		// List<MediaItem> songsList =
-		// session.createCriteria(MediaItem.class).list();
-		// tx.commit();
+		Query query;
 
-		Query query = session.createQuery("from MediaItem where category = :god");
+		query = session.createQuery("from MediaItem where category = :god");
 		query.setParameter("god", Category);
-		List list = query.list();
 
-		// System.out.println(list.toString());
+		List list = query.list();
 
 		session.close();
 		return list;
-	}
-
-	@Override
-	public List<MediaItem> fetchSongsBySubCategory(String Category) {
-		// TODO Auto-generated method stub
-				session = sessionFactory.openSession();
-				Query query = session.createQuery("from MediaItem where sub_category = :god");
-				query.setParameter("god", Category);
-				List list = query.list();
-
-				// System.out.println(list.toString());
-
-				session.close();
-				return list;
-	}
-
-
-	@Override
-	public List<MediaItem> fetchCategories() {
-		// TODO Auto-generated method stub
-		session = sessionFactory.openSession();
-
-		tx = session.beginTransaction();
-		Criteria crit = session.createCriteria(MediaItem.class);
-		crit.setProjection(Projections.distinct(Projections.property("category")));
-		List<MediaItem> gods = crit.list();
-		tx.commit();
-
-		session.close();
-
-		return gods;
 	}
 
 	@Override
@@ -82,14 +50,17 @@ public class SongsDaoImpl implements SongsDao {
 
 		// TODO Auto-generated method stub
 		session = sessionFactory.openSession();
-		
-		//tx = session.beginTransaction();
-		// Query query = session.createQuery("from MediaItem");
-		// List list = query.list();
 
-		// Query query = session.createQuery("from MediaItem mediaItem WHERE
-		// mediaItem.title IS NOT NULL GROUP BY mediaItem.category");
-		// List list = query.list();
+		/*
+		 * tx = session.beginTransaction(); Query query = session.createQuery(
+		 * "from MediaItem"); List list = query.list();
+		 */
+
+		/*
+		 * Query query = session.createQuery("from MediaItem mediaItem WHERE
+		 * mediaItem.title IS NOT NULL GROUP BY mediaItem.category"); List list
+		 * = query.list();
+		 */
 
 		Query query = session
 				.createQuery("from MediaItem  m, Categories c where c.category = m.category GROUP BY c.category");
@@ -100,18 +71,109 @@ public class SongsDaoImpl implements SongsDao {
 	}
 
 	@Override
-	public List<MediaItem> fetchSubCategories(String parent) {
-		// TODO Auto-generated method stub
+	public List<festivals> fetchUpcomingFestivals() {
+
 		session = sessionFactory.openSession();
 
-		Query query = session.createQuery(
-				"from MediaItem  m, Categories c where m.category = :cat AND c.category = m.sub_category GROUP BY sub_category");
-		query.setParameter("cat", parent);
+		Query query = session
+				.createQuery("from festivals  where festival_date > CURRENT_DATE() order by festival_date");
+		query.setMaxResults(1);
 		List list = query.list();
 
 		session.close();
 		return list;
 	}
 
+	@Override
+	public festivals fetchUpcomingFestival() {
+		Query query = session
+				.createQuery("from festivals  where festival_date > CURRENT_DATE() order by festival_date");
+
+		query.setMaxResults(1);
+
+		session.close();
+		return null;
+	}
+
+	@Override
+	public List<Versions> fetchVersion() {
+		// TODO Auto-generated method stub
+		session = sessionFactory.openSession();
+		Query query = session.createQuery("from Versions");
+
+		List list = query.list();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public List<MediaItem> fetchSongsByVersion(int version) {
+
+		session = sessionFactory.openSession();
+		Query query;
+		List list = null;
+
+			query = session.createQuery("from MediaItem  m, Categories c where c.category = m.category AND version>:ourVersion");
+			query.setParameter("ourVersion", version);
+			list = query.list();
+
+			session.close();
+		return list;
+	}
+
+	@Override
+	public List<MediaItem> fetchAllSongs() {
+		// TODO Auto-generated method stub
+		session = sessionFactory.openSession();
+		Query query = session.createQuery("from MediaItem  m, Categories c where c.category = m.category");
+		List list = query.list();
+		session.close();
+		return list;
+	}
+
+	@Override
+	public String updateLyrics(MediaItem song) {
+		// TODO Auto-generated method stub
+		session = sessionFactory.openSession();
+		
+		String hql = "UPDATE MediaItem set lyrics_en = :english, lyrics_telugu = :telugu "  + 
+	             "WHERE id = :serialNo";
+		Query query = session.createQuery(hql);
+		query.setParameter("english", song.getLyrics_en());
+		query.setParameter("telugu", song.getLyrics_telugu());
+		query.setParameter("serialNo", song.getSerialNo());
+		int result = query.executeUpdate();
+		
+		return "result : "+result;
+	}
+
+	@Override
+	public String addSong(MediaItem song) {
+		// TODO Auto-generated method stub
+		
+		if(fetchSong(song)<1){
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.save(song);
+	        session.getTransaction().commit();
+	        
+			return "sucess";
+		}else
+			return "error";
+		
+		
+	}
+
+	@Override
+	public int fetchSong(MediaItem song) {
+		
+		session = sessionFactory.openSession();
+		Query query = session.createQuery("from MediaItem  WHERE title = :title");
+		query.setParameter("title", song.getTitle());
+		List list = query.list();
+		session.close();
+		System.out.println("ads"+list.size());
+		return list.size();
+	}
 
 }
