@@ -2,6 +2,7 @@ package com.dhasri.service;
 
 import java.util.List;
 
+import com.dhasri.model.Categories;
 import com.dhasri.model.MediaItem;
 import com.dhasri.model.Versions;
 import com.dhasri.model.festivals;
@@ -10,6 +11,9 @@ public interface SongsService {
 	
 	
 	public String addSong(MediaItem song);
+	public String updateSong(MediaItem song);
+	public List<String> fetchAllCategories();
+	
 	
  
 	public List<MediaItem> fetchSongsByVersion(int version);

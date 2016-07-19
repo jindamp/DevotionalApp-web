@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.dhasri.dao.SongsDao;
+import com.dhasri.model.Categories;
 import com.dhasri.model.MediaItem;
 import com.dhasri.model.Versions;
 import com.dhasri.model.festivals;
@@ -63,6 +64,18 @@ public class SongsServiceImpl implements SongsService{
 	public String addSong(MediaItem song) {
 		// TODO Auto-generated method stub
 		return songsDao.addSong(song);
+	}
+
+	@Override
+	public String updateSong(MediaItem song) {
+		// TODO Auto-generated method stub
+		return songsDao.updateSong(song);
+	}
+
+	@Override
+	public List<String> fetchAllCategories() {
+		// TODO Auto-generated method stub
+		return songsDao.fetchAllCategories();
 	}
 
 }

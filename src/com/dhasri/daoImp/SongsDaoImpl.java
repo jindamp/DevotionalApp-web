@@ -176,4 +176,40 @@ public class SongsDaoImpl implements SongsDao {
 		return list.size();
 	}
 
+	@Override
+	public String updateSong(MediaItem song) {
+		// TODO Auto-generated method stub
+				session = sessionFactory.openSession();
+				
+				String hql = "UPDATE MediaItem set category = :category, title = :title, album = :album,"
+						+ " artist = :artist, composer = :composer,title_telugu = :title_telugu, duration = :duration,path = :path "  + 
+			             "WHERE id = :serialNo";
+				Query query = session.createQuery(hql);
+				
+				query.setParameter("category", song.getCategory());
+				query.setParameter("title", song.getTitle());
+				query.setParameter("album", song.getAlbum());
+				query.setParameter("artist", song.getArtist());
+				query.setParameter("composer", song.getComposer());
+				query.setParameter("duration", song.getDuration());
+				query.setParameter("path", song.getPath());
+				query.setParameter("serialNo", song.getSerialNo());
+				query.setParameter("title_telugu", song.getTitle_telugu());
+				int result = query.executeUpdate();
+				
+				return "result : "+result;
+	}
+
+	@Override
+	public List<String> fetchAllCategories() {
+		// TODO Auto-generated method stub
+		session = sessionFactory.openSession();
+		Query query = session.createQuery("Select category from Categories");
+		List list = query.list();
+		session.close();
+		System.out.println("ads"+list.size());
+		
+		return list;
+	}
+
 }

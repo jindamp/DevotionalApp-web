@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%-- <%@ page contentType="text/html; charset=UTF-8" %> --%>
  <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -36,7 +37,7 @@
             <div class="col-md-12 music-player" >
                 <b class="play-song">Heading to play Song</b>
 
-<button style="float: right;vertical-align: middle; margin-top:16px; " type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">Add Song</button>
+<button style="float: right;vertical-align: middle; margin-top:16px; " type="button" class="btn btn-info btn-md" data-toggle="modal" ng-click="getCategories()" data-target="#myModal">Add Song</button>
     <!--
                 <audio controls="controls">
                   <source src="track.ogg" type="audio/ogg" />
@@ -103,7 +104,8 @@
                 
                <div style=" height:70%; width:100%" class="song-img">
                  <a ng-click="playSong(x.path);" href="#"><img class="image" src="http://icons.iconarchive.com/icons/cornmanthe3rd/plex/512/Media-play-music-icon.png" alt="Mountain View"></a>
-                <div data-toggle="modal" data-ng-click="model(x, $index)" data-target="#lyricsModal" style="position: absolute; bottom:0;margin-bottom:58px;right:0;padding:8px;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></div>
+                <div data-toggle="modal" data-ng-click="model(x, $index)" data-target="#lyricsModal" style="position: absolute; bottom:0;margin-bottom:58px;right:0;padding:8px;"><i class="fa fa-wpforms fa-lg" aria-hidden="true"></i></div>
+                <div data-toggle="modal" data-ng-click="model(x, $index)" data-target="#editModal" style="position: absolute; top:0;margin-bottom:58px;right:0;padding:8px;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i></div>   
                 </div>
             
                 <div class="song-footer" style="height:30%;width:100%">Title : {{x.title}}</div>
@@ -140,16 +142,26 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="Category">Category</label>  
               <div class="col-md-6">
-              <input id="Category" name="Category"  data-ng-model="insertSong.category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required="">
-
-              </div>
+              <!-- <input id="Category" name="Category"  data-ng-model="insertSong.category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required=""> -->
+					<select ng-model="pavan.category" class="form-control input-md" ng-options="item for item in cat"></select>
+				</div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="Title">Title</label>  
               <div class="col-md-6">
-              <input id="Title" name="Title" data-ng-model="insertSong.title" type="text" placeholder="Song Title" class="form-control input-md" required="">
+              <input id="Title" name="Title" data-ng-model="pavan.title" type="text" placeholder="Song Title" class="form-control input-md" required="">
+
+              </div>
+            </div>
+            
+            
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Title_Telugu">Title Telugu</label>  
+              <div class="col-md-6">
+              <input id="Title_Telugu" name="Title_Telugu" data-ng-model="pavan.title_telugu" type="text" placeholder="Song Title in telugu" class="form-control input-md" required="">
 
               </div>
             </div>
@@ -158,8 +170,8 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="album">Album</label>  
               <div class="col-md-6">
-              <input id="album" name="album" data-ng-model="insertSong.album" type="text" placeholder="Song Album" class="form-control input-md" required="">
-
+              <input id="album" name="album" data-ng-model="pavan.album" type="text" placeholder="Song Album" class="form-control input-md" required="">
+			   	
               </div>
             </div>
 
@@ -167,7 +179,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="artist">Artist</label>  
               <div class="col-md-6">
-              <input id="artist" name="artist" data-ng-model="insertSong.artist" type="text" placeholder="Song Artist" class="form-control input-md" required="">
+              <input id="artist" name="artist" data-ng-model="pavan.artist" type="text" placeholder="Song Artist" class="form-control input-md" required="">
 
               </div>
             </div>
@@ -176,7 +188,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="composer">Composer</label>  
               <div class="col-md-6">
-              <input id="composer" name="composer" data-ng-model="insertSong.composer" type="text" placeholder="song composer" class="form-control input-md">
+              <input id="composer" name="composer" data-ng-model="pavan.composer" type="text" placeholder="song composer" class="form-control input-md">
 
               </div>
             </div>
@@ -185,7 +197,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="duration">Duration</label>  
               <div class="col-md-6">
-              <input id="duration" name="duration" type="text" placeholder="Time in Minutes" class="form-control input-md">
+              <input id="duration" name="duration" data-ng-model="pavan.duration" type="text" placeholder="Time in Minutes" class="form-control input-md">
 
               </div>
             </div>
@@ -194,7 +206,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="url">URL</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" data-ng-model="insertSong.path" id="url" name="url">Song Url</textarea>
+                <textarea class="form-control" data-ng-model="pavan.path" id="url" name="url">Song Url</textarea>
               </div>
             </div>
 
@@ -219,7 +231,7 @@
           <!-- Button -->
             <div class="form-group modal-footer">
               <label class="col-md-4 control-label" for="Submit"></label>
-                <button id="Submit" ng-click="addSong(insertSong)" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                <button id="Submit" ng-click="addSong(pavan)" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
             </div>
 	</form>
             
@@ -255,7 +267,11 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="Category">Category</label>  
               <div class="col-md-6">
-              <input id="Category" name="Category" data-ng-model="song.category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required="">
+              <!-- <input id="Category" name="Category" data-ng-model="song.category" type="text" placeholder="ex: Ganesh" class="form-control input-md" required=""> -->
+
+				<select data-ng-selected="{{song.category}}" data-ng-model="song.category" class="form-control input-md">
+				<option data-ng-repeat="item in cat">{{item}}</option>
+				</select>
 
               </div>
             </div>
@@ -264,16 +280,24 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="Title">Title</label>  
               <div class="col-md-6">
-              <input id="Title" name="Title" type="text" placeholder="Song Title" class="form-control input-md" required="">
+              <input id="Title" name="Title" data-ng-model="song.title" type="text" placeholder="Song Title" class="form-control input-md" required="">
 
               </div>
+            </div>
+            
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-md-4 control-label" for="Title">Title Telugu</label>  
+              <div class="col-md-6">
+              <input id="Title_Telugu" name="Title_Telugu" data-ng-model="song.title_telugu" type="text" placeholder="Song Title in telugu" class="form-control input-md" required="">
+				</div>
             </div>
 
             <!-- Text input-->
             <div class="form-group">
               <label class="col-md-4 control-label" for="album">Album</label>  
               <div class="col-md-6">
-              <input id="album" name="album" type="text" placeholder="Song Album" class="form-control input-md" required="">
+              <input id="album" name="album" data-ng-model="song.album" type="text" placeholder="Song Album" class="form-control input-md" required="">
 
               </div>
             </div>
@@ -282,7 +306,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="artist">Artist</label>  
               <div class="col-md-6">
-              <input id="artist" name="artist" type="text" placeholder="Song Artist" class="form-control input-md" required="">
+              <input id="artist" name="artist" data-ng-model="song.artist" type="text" placeholder="Song Artist" class="form-control input-md" required="">
 
               </div>
             </div>
@@ -291,7 +315,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="composer">Composer</label>  
               <div class="col-md-6">
-              <input id="composer" name="composer" type="text" placeholder="song composer" class="form-control input-md">
+              <input id="composer" name="composer" data-ng-model="song.composer" type="text" placeholder="song composer" class="form-control input-md">
 
               </div>
             </div>
@@ -300,7 +324,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="duration">Duration</label>  
               <div class="col-md-6">
-              <input id="duration" name="duration" type="text" placeholder="Time in Minutes" class="form-control input-md">
+              <input id="duration" name="duration" data-ng-model="song.duration" type="text" placeholder="Time in Minutes" class="form-control input-md">
 
               </div>
             </div>
@@ -309,7 +333,7 @@
             <div class="form-group">
               <label class="col-md-4 control-label" for="url">URL</label>
               <div class="col-md-6">                     
-                <textarea class="form-control" id="url" name="url">Song Url</textarea>
+                <textarea class="form-control" id="url" name="url" data-ng-model="song.path">Song Url</textarea>
               </div>
             </div>
 
@@ -334,7 +358,7 @@
           <!-- Button -->
             <div class="form-group modal-footer">
               <label class="col-md-4 control-label" for="Submit"></label>
-                <button id="Submit" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
+                <button id="Submit" ng-click="updateSong(song)" name="Submit" class="btn btn-primary" data-dismiss="modal">Submit</button>
             </div>
 	</form>
             
@@ -400,7 +424,41 @@
         
 <!-- ******************* End Edit Modal  **************************** -->    
         
+        <!-- ******************* Lyrics Display Modal  **************************** -->        
+        <!-- Modal -->
+  <div class="modal fade" id="displayLyrics" role="dialog" >
+    <div class="modal-dialog">
+    
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Song lyrics</h4>
+        </div>
+        <div class="modal-body">
+        	<div class="container">
+        		<div class="row">
+        		<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">Menu 1</a></li>
+  <li><a href="#">Menu 2</a></li>
+  <li><a href="#">Menu 3</a></li>
+</ul>
+        			<div class="col-md-6">{{song.lyrics_en}}</div>   
+            		<div class="col-md-6">{{song.lyrics_en}} </div>
+        		</div>
+        		
+        	</div>
+            
+            
+        </div>
         
+      </div>
+      
+    </div>
+  </div>
+<!-- End Modal -->   
         
         </div>
 

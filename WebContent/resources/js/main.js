@@ -10,12 +10,29 @@ app.config(['$httpProvider', function($httpProvider) {
 
 
 app.controller("getRequest",function($scope,$http){
-               
+	
+	
+	$scope.selectedCategory={};
+
+	$scope.updateGods = function(){
+		$http.get("categories")
+		.success(function(data, status, headers, config) {
+					$scope.gods = data;
+					$scope.getCategories();
+			    })
+                .error(function(error, status, headers, config) {
+                    console.log(status);
+                    console.log(error);
+                    console.log("Error occured");
+                });
+	}
+	
+	
     $http.get("categories")
     		.success(function(data, status, headers, config) {
     					$scope.gods = data;
-    					console.log(data);
-                    })
+    					$scope.getCategories();
+    			    })
                     .error(function(error, status, headers, config) {
                         console.log(status);
                         console.log(error);
@@ -23,6 +40,22 @@ app.controller("getRequest",function($scope,$http){
                     });
               
   
+    $scope.cat = {};
+
+    $scope.getCategories = function(){
+     
+    	$http.get("allCategories")
+    	.success(function(data, status, headers, config) {
+    				$scope.cat = data;
+    				console.log(data);
+                })
+                .error(function(error, status, headers, config) {
+                    console.log(status);
+                    console.log(error);
+                    console.log("Error occured");
+                });
+    }
+    
     $scope.song = {};
     $scope.model = function(x, index) {
     	/*$scope.song['category'] = x.category;*/
@@ -44,10 +77,24 @@ app.controller("getRequest",function($scope,$http){
     }
     
     $scope.addSong = function(song) {
-    	console.log(JSON.stringify(song));
+    	console.log("pavan"+JSON.stringify(song));
     	$http({
     		method:'POST',
     		url:'addSong',
+    		data:JSON.stringify(song)
+    	}) .success(function(data, status, headers, config) {
+    		
+        })
+        .error(function(error, status, headers, config) {
+             console.log("Error occured");
+        });
+    }
+    
+    $scope.updateSong = function(song) {
+    	console.log(JSON.stringify(song));
+    	$http({
+    		method:'POST',
+    		url:'updateSong',
     		data:JSON.stringify(song)
     	}) .success(function(data, status, headers, config) {
     		console.log(data)
@@ -56,6 +103,9 @@ app.controller("getRequest",function($scope,$http){
              console.log("Error occured");
         });
     }
+    
+    
+    
     
     
     $scope.AppendText = function() {
@@ -70,6 +120,7 @@ app.controller("getRequest",function($scope,$http){
   
     $scope.fetchData = function(category)
                 {
+    				$scope.selectedCategory = category;
                     $http.get("songs/"+category)
                     .success(function(data, status, headers, config) {
                          $scope.zipCodes = data;

@@ -10,13 +10,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "media_details")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class MediaItem {
 	@Id
 	@GeneratedValue
 	@Column(name = "id")
 	private int serialNo;
-	
+
 	private String category;
 	private String lyrics_en;
 	private String lyrics_telugu;
@@ -28,16 +28,26 @@ public class MediaItem {
 	private long albumId;
 	private String composer;
 	private int version;
+
 	private String $$hashKey;
-	
-	public MediaItem()
-	{
-		
+	private String title_telugu;
+
+	public MediaItem() {
+
 	}
-	
+
+	public String getTitle_telugu() {
+		return title_telugu;
+	}
+
+	public void setTitle_telugu(String title_telugu) {
+		this.title_telugu = title_telugu;
+	}
+
 	public int getVersion() {
 		return version;
 	}
+
 	public void setVersion(int version) {
 		this.version = version;
 	}
@@ -46,16 +56,13 @@ public class MediaItem {
 		return lyrics_en;
 	}
 
-
 	public void setLyrics_en(String lyrics_en) {
 		this.lyrics_en = lyrics_en;
 	}
 
-
 	public String getLyrics_telugu() {
 		return lyrics_telugu;
 	}
-
 
 	public String get$$hashKey() {
 		return $$hashKey;
@@ -68,7 +75,6 @@ public class MediaItem {
 	public void setLyrics_telugu(String lyrics_telugu) {
 		this.lyrics_telugu = lyrics_telugu;
 	}
-
 
 	public String getCategory() {
 		return category;
@@ -141,6 +147,5 @@ public class MediaItem {
 	public void setComposer(String composer) {
 		this.composer = composer;
 	}
-	
 
 }

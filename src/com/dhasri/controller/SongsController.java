@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dhasri.model.Categories;
 import com.dhasri.model.MediaItem;
 import com.dhasri.model.Versions;
 import com.dhasri.model.festivals;
@@ -44,7 +45,7 @@ public class SongsController{
 	}
 	
 	
-	/* ========================= Add Songs ===================================== */	
+	/* ========================= Add Song ===================================== */	
 	@RequestMapping(value = "/addSong",method = RequestMethod.POST)
 	public @ResponseBody String addSong(@RequestBody MediaItem song) {
 		
@@ -54,6 +55,17 @@ public class SongsController{
 		
 }
 
+	/* ========================= Update Song ===================================== */	
+	@RequestMapping(value = "/updateSong",method = RequestMethod.POST)
+	public @ResponseBody String updateSong(@RequestBody MediaItem song) {
+		
+		String status = songsService.updateSong(song);
+		
+		return "{ \"status\" : \""+status+"\"}";
+		
+}
+	
+	
 	/* ========================= Update Lyrics ===================================== */	
 	@RequestMapping(value = "/updateLyrics",method = RequestMethod.POST)
 	public @ResponseBody String updateLyrics(@RequestBody MediaItem song) {
@@ -63,6 +75,23 @@ public class SongsController{
 		return "{ \"status\" : \""+status+"\"}";
 		
 }
+	
+	/* ========================= Fetch Categoeries ===================================== */
+	@RequestMapping(value = "/allCategories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+	public @ResponseBody
+	List<String> fetchCategories() {
+
+		List<String> categories = null;
+		try {
+			categories = songsService.fetchAllCategories();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return categories;
+	}
+	
 	
 	/* ========================= Fetch All Categoeries ===================================== */
 	@RequestMapping(value = "/categories", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
